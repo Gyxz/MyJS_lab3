@@ -1,9 +1,9 @@
 $(document).ready(function() {
     fillTable();
-    $(`#createUserButton`).on(`click`, createUser);
+    $(`#createPlanetButton`).on(`click`, createPlanet);
     $(`#planetsList tbody`).on('click', 'tr button.btn-danger', deletePlanet);
     $(`#planetsList tbody`).on('click', 'tr button.btn-edit', editPlanet);
-    $(`#findUserButton`).on('click', findPlanet);
+    $(`#findPlanetButton`).on('click', findPlanet);
     $(`#planetsList tbody`).on('click', 'tr', showPlanetInfo);
 });
 
@@ -29,7 +29,7 @@ function fillTable() {
 }
 
 
-function createUser(event) {
+function createPlanet(event) {
     event.preventDefault();
     let id = $(`#inputId`).val();
     let name = $(`#inputName`).val();
@@ -66,16 +66,15 @@ function deletePlanet(event) {
     event.stopImmediatePropagation();
     let data = $(this).parent().parent();
     let id = $(data).find(`td:nth-child(1)`).text();
-    if (confirm(`Ви впевнені,що хочете видалити планету з id ${id} ?`)) {
-        $.ajax({
-            url: `/service/planets/${id}`,
-            type: `DELETE`,
-            success: function(result) {
-                alert(result);
-                fillTable();
-            }
-        });
-    }
+    $.ajax({
+        url: `/service/planets/${id}`,
+        type: `DELETE`,
+        success: function(result) {
+            alert(result);
+            fillTable();
+        }
+    });
+    
 }
 
 function findPlanet(event) {

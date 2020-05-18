@@ -16,7 +16,6 @@ router.get('/:id', function (req, res) {
     var db = req.db;
     var collection = db.get('goods');
     var goodsId = req.params.id;
-    console.log(goodsId);
     collection.findOne({ id: goodsId }).then(function(goodsExists) {
         if (goodsExists) {
             res.send(`Вантаж з id ${goodsId} існує`);
@@ -31,7 +30,6 @@ router.post('/:id', function (req, res) {
     var db = req.db;
     var collection = db.get('goods');
     var goodsId = req.params.id;
-    console.log(goodsId);
     var goods = {
         id: req.body.id,
         code: req.body.code,
@@ -63,7 +61,6 @@ router.post('/', function (req, res) {
                 if (e) {
                     res.send(e);
                 } else {
-                    // res.redirect(`/${goods.id}`);
                     res.send(`Успішно створено вантаж з id ${goods.id}`);
                 }
             });
@@ -85,7 +82,6 @@ router.put('/', function (req, res) {
         if (e) {
             res.send(e);
         } else {
-            // res.redirect(`/${goods.id}`);
             res.send(`Успішно оновлено вантаж з id [${goods.id}]`);
         }
     });

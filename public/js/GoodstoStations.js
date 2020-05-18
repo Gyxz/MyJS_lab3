@@ -3,6 +3,8 @@ $(document).ready(function() {
     $(`#createGoodstoStationButton`).on(`click`, createGoodstoStation);
     $(`#goodstoStationsList tbody`).on('click', 'tr button.btn-danger', deleteGoodstoStation);
     $(`#goodstoStationsList tbody`).on('click', 'tr', showGoodstoStationInfo);
+    $(`#ShowLessThen30`).on('click', showLessThen30);
+    $(`#goodstoStationsListLessThen30 tbody`).on(showGoodstoStationInfo);
 });
 
 function fillTable() {
@@ -16,11 +18,26 @@ function fillTable() {
             tableContent += `<td>${this.id}</td>`;
             tableContent += `<td>${this.spaceStation}</td>`;
             tableContent += `<td>${this.goods}</td>`;
+            tableContent += `<td><button type="button" class="btn btn-danger">Видалити</button></td>`
             tableContent += `</tr>`;
         });
         $(`#goodstoStationsList tbody`).html(tableContent);
     });
 }
+
+function fillTable2(result) {
+    let tableContent = '';
+        result.forEach((value)=>{
+            tableContent += `<tr id="${this.id}">`;
+            tableContent += `<td>${value.id}</td>`;
+            tableContent += `<td>${value.name}</td>`;
+            tableContent += `<td>${value.necessity}</td>`;
+            tableContent += `<td>${value.capacity}</td>`;
+            tableContent += `</tr>`;
+            $(`#goodstoStationsListLessThen30 tbody`).html(tableContent);
+        })
+}
+
 
 function createGoodstoStation(event) {
     event.preventDefault();
@@ -52,20 +69,32 @@ function showGoodstoStationInfo(event) {
     });
 }
 
+function showLessThen30(event) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    let i =30;
+    $.ajax({
+        url: `/service/goodstoStations/${i}`,
+        type: `POST`,
+        success: function(result) {
+            fillTable2(result);
+        }
+    });
+}
+
+
 function deleteGoodstoStation(event) {
     event.preventDefault();
     event.stopImmediatePropagation();
     let data = $(this).parent().parent();
     let id = $(data).find(`td:nth-child(1)`).text();
-    let spaceStation = $(data).find(`td:nth-child(2)`).text();
-    if (confirm(`Are you sure you want to delete goods on [${id}] ${spaceStation}?`)) {
-        $.ajax({
-            url: `/service/goodstoStations/${id}`,
-            type: `DELETE`,
-            success: function(result) {
-                alert(result);
-                fillTable();
-            }
-        });
-    }
+    $.ajax({
+        url: `/service/goodstoStations/${id}`,
+        type: `DELETE`,
+        success: function(result) {
+            alert(result);
+            fillTable();
+        }
+    });
+    
 }

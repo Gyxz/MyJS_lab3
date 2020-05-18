@@ -6,7 +6,6 @@ router.get('/', function (req, res) {
     var db = req.db;
     var collection = db.get('space_stations');
     collection.find({}, {}, function (e, docs) {
-        /*console.log(docs.ops);*/
         res.json(docs);
     });
 });
@@ -15,7 +14,6 @@ router.get('/:id', function (req, res) {
     var db = req.db;
     var collection = db.get('space_stations');
     var space_stationsId = req.params.id;
-    console.log(space_stationsId);
     collection.findOne({ id: space_stationsId }).then(function(space_stationsExists) {
         if (space_stationsExists) {
             res.send(`Космічна станція з id ${space_stationsId} існує`);
@@ -55,30 +53,29 @@ router.post('/', function (req, res) {
 });
 
 // PUT /space_stations
-router.put('/', function (req, res) {
-    var db = req.db;
-    var collection = db.get('space_stations');
-    var spaceStation = {
-        id: req.body.id,
-        name: req.body.name,
-        necessity: req.body.necessity,
-        capacity: req.body.capacity
-    };
-    collection.update({ id: spaceStation.id }, spaceStation, function (e, docs) {
-        if (e) {
-            res.send(e);
-        } else {
-            // res.redirect(`/space_stations/${space_station.id}`);
-            res.send(`Успішно відредагована станція з id [${spaceStation.id}]`);
-        }
-    });
-});
+// router.put('/', function (req, res) {
+//     var db = req.db;
+//     var collection = db.get('space_stations');
+//     var spaceStation = {
+//         id: req.body.id,
+//         name: req.body.name,
+//         necessity: req.body.necessity,
+//         capacity: req.body.capacity
+//     };
+//     collection.update({ id: spaceStation.id }, spaceStation, function (e, docs) {
+//         if (e) {
+//             res.send(e);
+//         } else {
+//             res.send(`Успішно відредагована станція з id [${spaceStation.id}]`);
+//         }
+//     });
+// });
 
 router.post('/:id', function (req, res) {
     var db = req.db;
     var collection = db.get('space_stations');
     var space_stationsId = req.params.id;
-    console.log(space_stationsId);
+    //console.log(space_stationsId);
     var space_stations = {
         id: req.body.id,
         name: req.body.name,
@@ -99,6 +96,7 @@ router.delete('/:id', function (req, res) {
         if (e) {
             res.send(e);
         } else {
+           
             res.send(`Успішно видалена космічна станція з id ${spaceStationId}`);
         }
     });

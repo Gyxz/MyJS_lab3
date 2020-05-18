@@ -9,7 +9,7 @@ router.get('/', function (req, res) {
         res.json(docs);
     });
 });
-
+ 
 // GET /goodsto_Stations/{id}
 router.get('/:id', function (req, res) {
     var db = req.db;
@@ -20,6 +20,34 @@ router.get('/:id', function (req, res) {
     });
 });
 
+router.post('/:id', function (req, res) {
+    var db = req.db;
+    var collectionLessThen30 =[];
+    var collection = db.get('goodstoStations');
+    var space_stations = db.get('space_stations');
+    let result = {};
+    collection.find({}).then((docs) => {
+        docs.forEach((value) => {
+                result[value.spaceStation] = result[value.spaceStation] + 1 || 1;
+            });
+    });
+
+    space_stations.find({}).then((docs) => {
+        docs.forEach((value)=>{
+            for (let key in result){
+                if(value.id == key && +value.capacity*0.3 > result[key])
+                {
+                    collectionLessThen30.push(value);
+                    break;
+                }
+            }
+        })
+        res.json(collectionLessThen30);
+    });
+
+});
+
+
 // POST /goodsto_Stations
 router.post('/', function (req, res) {
     var db = req.db;
@@ -28,8 +56,6 @@ router.post('/', function (req, res) {
     var goods= db.get('goods');
     let result={};
     let b = true
-
-
 
     spaceStations.findOne({ id: req.body.spaceStation }, {}, function (e, docs) {
         return !!docs;
@@ -75,7 +101,7 @@ router.post('/', function (req, res) {
                                             if (e) {
                                                 res.send(e);
                                             } else {
-                                                // res.redirect(`/${goodsto_Stations.id}`);
+                                                
                                                 res.send(`Успішно створений вантаж на станції з id ${goodstoStation.id}`);
                                             }
                                         });
@@ -114,7 +140,6 @@ router.put('/', function (req, res) {
         if (e) {
             res.send(e);
         } else {
-            // res.redirect(`/${goodsto_Stations.id}`);
             res.send(`Successfully updated goods on Station with id [${goodstoStation.id}]`);
         }
     });

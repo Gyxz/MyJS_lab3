@@ -2,8 +2,6 @@ $(document).ready(function() {
     fillTable();
     $(`#createGoodstoPlanetButton`).on(`click`, createGoodstoPlanet);
     $(`#goodstoPlanetsList tbody`).on('click', 'tr button.btn-danger', deleteGoodstoPlanet);
-    $(`#ShowLessThen30`).on('click', showLessThen30);
-    $(`#goodstoPlanetsListLessThen30 tbody`).on(showGoodstoPlanetInfo);
 });
 
 function fillTable() {
@@ -17,23 +15,11 @@ function fillTable() {
             tableContent += `<td>${this.id}</td>`;
             tableContent += `<td>${this.planet}</td>`;
             tableContent += `<td>${this.goods}</td>`;
+            tableContent += `<td><button type="button" class="btn btn-danger">Видалити</button></td>`
             tableContent += `</tr>`;
         });
         $(`#goodstoPlanetsList tbody`).html(tableContent);
     });
-}
-
-function fillTable2(result) {
-    let tableContent = '';
-        result.forEach((value)=>{
-            tableContent += `<tr id="${this.id}">`;
-            tableContent += `<td>${value.id}</td>`;
-            tableContent += `<td>${value.name}</td>`;
-            tableContent += `<td>${value.mass}</td>`;
-            tableContent += `<td>${value.capacity}</td>`;
-            tableContent += `</tr>`;
-            $(`#goodstoPlanetsListLessThen30 tbody`).html(tableContent);
-        })
 }
 
 function createGoodstoPlanet(event) {
@@ -66,33 +52,19 @@ function showGoodstoPlanetInfo(event) {
     });
 }
 
-function showLessThen30(event) {
-    event.preventDefault();
-    event.stopImmediatePropagation();
-    let i =30;
-    $.ajax({
-        url: `/service/goodstoPlanets/${i}`,
-        type: `POST`,
-        success: function(result) {
-            fillTable2(result);
-        }
-    });
-}
 
 function deleteGoodstoPlanet(event) {
     event.preventDefault();
     event.stopImmediatePropagation();
     let data = $(this).parent().parent();
     let id = $(data).find(`td:nth-child(1)`).text();
-    let planet = $(data).find(`td:nth-child(2)`).text();
-    if (confirm(` [${id}] ${planet}?`)) {
-        $.ajax({
-            url: `/service/goodstoPlanets/${id}`,
-            type: `DELETE`,
-            success: function(result) {
-                alert(result);
-                fillTable();
-            }
-        });
-    }
+    $.ajax({
+        url: `/service/goodstoPlanets/${id}`,
+        type: `DELETE`,
+        success: function(result) {
+            alert(result);
+            fillTable();
+        }
+    });
+    
 }

@@ -20,33 +20,6 @@ router.get('/:id', function (req, res) {
     });
 });
 
-router.post('/:id', function (req, res) {
-    var db = req.db;
-    var collectionLessThen30 =[];
-    var collection = db.get('goodstoPlanets');
-    var planets = db.get('planets');
-    let result = {};
-    collection.find({}).then((docs) => {
-        docs.forEach((value) => {
-                result[value.planet] = result[value.planet] + 1 || 1;
-
-            });
-    });
-
-    planets.find({}).then((docs) => {
-        docs.forEach((value)=>{
-            for (let key in result){
-                if(value.id == key && +value.capacity*0.3 > result[key])
-                {
-                    collectionLessThen30.push(value);
-                    break;
-                }
-            }
-        })
-        res.json(collectionLessThen30);
-    });
-
-});
 
 // POST /goodsto_Planets
 router.post('/', function (req, res) {
@@ -101,7 +74,7 @@ router.post('/', function (req, res) {
                                             if (e) {
                                                 res.send(e);
                                             } else {
-                                                // res.redirect(`/${goodsto_Stations.id}`);
+                                                
                                                 res.send(`Успішно створений вантаж на планеті з id ${goodstoPlanet.id}`);
                                             }
                                         });
@@ -140,7 +113,6 @@ router.put('/', function (req, res) {
         if (e) {
             res.send(e);
         } else {
-            // res.redirect(`/${goodsto_Planets.id}`);
             res.send(`Successfully updated goods on Planet with id [${goodstoPlanet.id}]`);
         }
     });

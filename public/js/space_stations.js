@@ -1,10 +1,10 @@
 $(document).ready(function() {
     fillTable();
-    $(`#createUserButton`).on(`click`, createUser);
+    $(`#createSpaceStationButton`).on(`click`, createSpaceStation);
     $(`#spaceStationsList tbody`).on('click', 'tr button.btn-danger', deleteSpaceStation);
     $(`#spaceStationsList tbody`).on('click', 'tr', showSpaceStationInfo);
     $(`#spaceStationsList tbody`).on('click', 'tr button.btn-edit', editSpaceStation);
-    $(`#findUserButton`).on('click', findSpaceStation);
+    $(`#findSpaceStationButton`).on('click', findSpaceStation);
 });
 
 function fillTable() {
@@ -28,14 +28,14 @@ function fillTable() {
     });
 }
 
-function createUser(event) {
+function createSpaceStation(event) {
     event.preventDefault();
     let id = $(`#inputId`).val();
     let name = $(`#inputName`).val();
     let necessity = $(`#inputNecessity`).val();
     let capacity = $(`#inputCapacity`).val();
     if (!id.trim().length || !name.trim().length || !necessity.trim().length || !capacity.trim().length) {
-        alert(`Будь ласка, заповніть всі поля`);
+        alert(`Заповніть всі поля`);
         return;
     }
     $.ajax({
@@ -65,17 +65,14 @@ function deleteSpaceStation(event) {
     event.stopImmediatePropagation();
     let data = $(this).parent().parent();
     let id = $(data).find(`td:nth-child(1)`).text();
-    let name = $(data).find(`td:nth-child(2)`).text();
-    if (confirm(`Ви впевнені,що хочете видалити космічну станцію з id ${id} ?`)) {
-        $.ajax({
-            url: `/service/space_stations/${id}`,
-            type: `DELETE`,
-            success: function(result) {
-                alert(result);
-                fillTable();
-            }
-        });
-    }
+    $.ajax({
+        url: `/service/space_stations/${id}`,
+        type: `DELETE`,
+        success: function(result) {
+            alert(result);
+            fillTable();
+        }
+    });
 }
 
 
@@ -102,7 +99,7 @@ function editSpaceStation(event) {
     event.preventDefault();
     let data = $(this).parent().parent();
     let id = $(data).find(`td:nth-child(1)`).text();
-    let number = $(`#inputNumber`).val();
+    let name = $(`#inputName`).val();
     let necessity = $(`#inputNecessity`).val();
     let capacity = $(`#inputCapacity`).val();
     // if ( !name.trim().length || !mass.trim().length || !capacity.trim().length) {
@@ -113,7 +110,7 @@ function editSpaceStation(event) {
     $.ajax({
         url: `/service/space_stations/${id}`,
         type: `POST`,
-        data: {id: id, number:number,necessity:necessity, capacity: capacity},
+        data: {id: id, name:name,necessity:necessity, capacity: capacity},
         success: function (result) {
             alert(result);
             fillTable();

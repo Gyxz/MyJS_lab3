@@ -15,7 +15,6 @@ router.get('/:id', function (req, res) {
     var db = req.db;
     var collection = db.get('planets');
     var planetId = req.params.id;
-    console.log(planetId);
     collection.findOne({ id: planetId }).then(function(planetExists) {
         if (planetExists) {
             res.send(`Планета з id ${planetId} існує`);
@@ -30,7 +29,6 @@ router.post('/:id', function (req, res) {
     var db = req.db;
     var collection = db.get('planets');
     var planetId = req.params.id;
-    console.log(planetId);
     var planet = {
         id: req.body.id,
         name: req.body.name,

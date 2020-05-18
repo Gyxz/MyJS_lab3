@@ -21,9 +21,12 @@ router.get('/goodstoPlanets', function(req, res) {
 });
 
 router.get('/goodstoPlanetsLessThen30', function(req, res) {
-    res.render('pages/GoodstonPlanet');
+    res.render('pages/GoodstoPlanet');
 });
 
+router.get('/goodstoStationsLessThen30', function(req, res) {
+    res.render('pages/GoodstoStations');
+});
 
 router.get('/planets', function(req, res) {
     res.render('pages/planets');

@@ -4,7 +4,7 @@ $(document).ready(function() {
     $(`#goodsList tbody`).on('click', 'tr button.btn-danger', deleteGoods);
     $(`#goodsList tbody`).on('click', 'tr', showGoodsInfo);
     $(`#goodsList tbody`).on('click', 'tr button.btn-edit', editGoods);
-    $(`#findUserButton`).on('click', findGoods);
+    $(`#findGoodsButton`).on('click', findGoods);
 });
 
 function fillTable() {
@@ -65,17 +65,14 @@ function deleteGoods(event) {
     event.stopImmediatePropagation();
     let data = $(this).parent().parent();
     let id = $(data).find(`td:nth-child(1)`).text();
-    let name = $(data).find(`td:nth-child(2)`).text();
-    if (confirm(`Ви впевнені,що хочете видалити вантаж з id ${id} ?`)) {
-        $.ajax({
-            url: `/service/goods/${id}`,
-            type: `DELETE`,
-            success: function(result) {
-                alert(result);
-                fillTable();
-            }
-        });
-    }
+    $.ajax({
+        url: `/service/goods/${id}`,
+        type: `DELETE`,
+        success: function(result) {
+            alert(result);
+            fillTable();
+        }
+    });
 }
 function findGoods(event) {
     event.preventDefault();
