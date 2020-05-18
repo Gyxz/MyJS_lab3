@@ -1,0 +1,23 @@
+include ./mixins/navbar
+
+doctype html
+html
+  head
+    title Lab3
+    block styles
+      link(rel='stylesheet' href='/public/css/main.css')
+      link(rel="stylesheet" href="/public/css/bootstrap.min.css")
+  body
+    +nav(Lab3, 'main_menu')
+        +nav_item( '/' ) Домашня сторінка
+        +nav_item( '/space_Stations' ) Космічні станції
+        +nav_item( '/planets' ) Планети
+        +nav_item( '/goods' ) Вантаж
+        +nav_item( '/goodstoPlanets' ) Доставка вантажу на планету
+        +nav_item( '/goodstoStations' ) Доставка вантажу на станцію
+    div.main.container
+        block content
+    block scripts
+        script(src="/public/js/script/jquery-3.1.1.min.js")
+        script(src="/public/js/script/bootstrap.min.js")
+        script(src='/public/js/main.js')

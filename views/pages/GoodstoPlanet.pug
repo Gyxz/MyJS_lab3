@@ -1,0 +1,34 @@
+extends ../layout
+
+block content
+    h3 Вантаж на планетах
+    form(class="form-inline")
+        div(class="form-group")
+            label ID
+            input(type="number" class="form-control" id="inputId")
+        div(class="form-group")
+            label Планета
+            input(type="text" class="form-control" id="inputPlanet")
+        div(class="form-group")
+            label Вантаж
+            input(type="number" class="form-control" id="inputGoods")
+        button(type="submit" class="btn btn-primary" id="createGoodstoPlanetButton") Додати
+    table(id="goodstoPlanetsList" class="table table-bordered table-hover")
+        thead
+            th ID
+            th Планета
+            th Вантаж
+        tbody
+    button(type="submit" class="btn btn-primary" id="ShowLessThen30") Показати
+    table(id="goodstoPlanetsListLessThen30" class="table table-bordered table-hover")
+        thead
+            th(id="PlanetId") ID
+            th(id="PlanetName") Назва
+            th(id="PlanetMass") Маса
+            th(id="PlanetCapacity") Місткість
+        tbody
+
+
+block append scripts
+    script(src='/public/js/GoodstoPlanet.js')
+    script(src='/public/js/GoodstoPlanetsLessThen30.js')

@@ -1,0 +1,35 @@
+extends ../layout
+
+block content
+    h3 Космічні станції
+    form(class="form-inline")
+        div(class="form-group")
+            label ID
+            input(type="number" class="form-control" id="inputId")
+        div(class="form-group")
+            label Назва
+            input(type="text" class="form-control" id="inputNumber")
+        div(class="form-group")
+            label Необхідність
+            input(type="number" class="form-control" id="inputNecessity")
+        div(class="form-group")
+            label Місткість
+            input(type="number" class="form-control" id="inputCapacity")
+    button(type="submit" class="btn btn-primary" id="createUserButton") Додати
+    form(class="form-inline")
+        div(class="form-group")
+            label Знайти за id
+            input(type="number" class="form-control" id="inputWhatToFind")
+        button(type="submit" class="btn btn-primary" id="findUserButton") Знайти
+    table(id="spaceStationsList" class="table table-bordered table-hover")
+        thead
+            th ID
+            th Назва
+            th Необхідність
+            th Місткість
+            th Видалити
+            th Регагувати
+        tbody
+
+block append scripts
+    script(src='/public/js/space_stations.js')
